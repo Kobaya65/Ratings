@@ -1,75 +1,24 @@
 package rating;
 
 public enum Rates {
-	AAA, AAP {
-		public String toString() {
-			return "AA+";
-		}
-	},
-	AA, AAM {
-		public String toString() {
-			return "AA-";
-		}
-	},
-	AP {
-		public String toString() {
-			return "A+";
-		}
-	},
-	A, AM {
-		public String toString() {
-			return "A-";
-		}
-	},
-	BBBP {
-		public String toString() {
-			return "BBB+";
-		}
-	},
-	BBB, BBBM {
-		public String toString() {
-			return "BBB-";
-		}
-	},
-	BBP {
-		public String toString() {
-			return "BB+";
-		}
-	},
-	BB, BBM {
-		public String toString() {
-			return "BB-";
-		}
-	},
-	BP {
-		public String toString() {
-			return "B+";
-		}
-	},
-	B, BM {
-		public String toString() {
-			return "B-";
-		}
-	},
-	CCCP {
-		public String toString() {
-			return "CCC+";
-		}
-	},
-	CCC, CCCM {
-		public String toString() {
-			return "CCC-";
-		}
-	},
-	CC, C, SD, D;
+	AAA("AAA"), AAP("AA+"), AA("AA"), AAM("AA-"), AP("A+"), A("A"), AM("A-"), BBBP("BBB+"), BBB("BBB"), BBBM("BBB-"),
+	BBP("BB+"), BB("BB"), BBM("BB-"), BP("B+"), B("B"), BM("B-"), CCCP("CCC+"), CCC("CCC"), CCCM("CCC-"), CC("CC"),
+	C("C"), SD("SD"), D("D");
+
+	String Rate;
+
+	private Rates(String ratingName) {
+		Rate = ratingName;
+	}
 
 	/**
-	 * This function changes rating by the number of notches asked, up or down
-	 * negative number of notches to downgrade (ex. from AAA to AA+), positive
-	 * number of notches to upgrade (ex. from B- to BBB+)
+	 * This function changes the rating by the number of notches asked, up or down.
+	 * Negative number of notches to downgrade (ex. from AAA to AA+), positive
+	 * number of notches to upgrade (ex. from B- to BBB+).
 	 * 
 	 * @param rating  the rating to change
 	 * @param notches number of notches to add to current rating
+	 * 
 	 * @return the updated rating
 	 */
 	public static String changeRatingByNotches(String rating, int notches) {
@@ -78,13 +27,17 @@ public enum Rates {
 		// retrieve ordinal of the rating in order to compute the new one
 		// based on the number of notches in argument
 		int ordinal = Rates.valueOf(rating).ordinal();
-		int newOrdinal = 0;
 
 		// compute the new rating, taking care of bounds
+		// (0 and number of ratings - 1)
+		int newOrdinal = 0;
 		if (Math.signum((float) notches) == -1.0) {
 			newOrdinal = Math.min(Rates.values().length - 1, ordinal - notches);
 		} else if (Math.signum((float) notches) == 1.0) {
 			newOrdinal = Math.max(0, ordinal - notches);
+		} else {
+			// if notches = 0
+			newOrdinal = ordinal;
 		}
 
 		// newRating
@@ -100,11 +53,12 @@ public enum Rates {
 	public static String upgradeRating(String rating) {
 		String[] rl = ratingsList();
 
-		// retrieve ordinal of the rating in order to compute the new one
 		try {
+			// retrieve ordinal of the rating in order to compute the new one
 			int ordinal = Rates.valueOf(rating).ordinal();
 
 			// compute the new rating, taking care of bounds
+			// want to upgrade, so need to get the previous index
 			int newOrdinal = Math.max(0, ordinal - 1);
 
 			return rl[newOrdinal];
@@ -127,6 +81,7 @@ public enum Rates {
 		int ordinal = Rates.valueOf(rating).ordinal();
 
 		// compute the new rating, taking care of bounds
+		// want to downgrade, so need to get the next index
 		int newOrdinal = Math.min(Rates.values().length - 1, ordinal + 1);
 
 		// newRating

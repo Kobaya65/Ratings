@@ -3,7 +3,7 @@ package rating;
 public class TestRating {
 
 	public static void main(String[] args) {
-	// Listing all the ratings and their ordinal
+		// Listing all the ratings and their ordinal
 		System.out.println("List of all Standards & Poors ratings and their ordinal");
 		System.out.println(Rates.AAA + "\t" + Rates.AAA.ordinal());
 		System.out.println(Rates.AAP + "\t" + Rates.AAP.ordinal());
@@ -28,21 +28,25 @@ public class TestRating {
 		System.out.println(Rates.C + "\t" + Rates.C.ordinal());
 		System.out.println(Rates.SD + "\t" + Rates.SD.ordinal());
 		System.out.println(Rates.D + "\t" + Rates.D.ordinal());
-		
+
 		System.out.println();
 		System.out.println("Use of changeRatingByNotches()");
 		for (int i = -10; i < 10; i++) {
-			System.out.println("BB " + i + " notches ==> " + Rates.changeRatingByNotches("BB", i));
+			if (i < 0) {
+				System.out.println("BB " + i + " notches ==> " + Rates.changeRatingByNotches("BB", i));
+			} else {
+				System.out.println("BB +" + i + " notches ==> " + Rates.changeRatingByNotches("BB", i));
+			}
 		}
-		
+
 		System.out.println();
 		System.out.println("Use of downgradeRating() or upgradeRating()");
-		System.out.println("Downgrade de BBB+ ==> " + Rates.downgradeRating("BBBP"));
-		System.out.println("Downgrade de CCC+ ==> " + Rates.downgradeRating("CCCP"));
-		System.out.println("Upgrade   de AA+  ==> " + Rates.upgradeRating("AAP"));
-		System.out.println("Downgrade de AA+  ==> " + Rates.downgradeRating("AAP"));
-		System.out.println("Downgrade de c    ==> " + Rates.upgradeRating("c"));
-		System.out.println("Upgrade   de A+   ==> " + Rates.upgradeRating("AP"));
-		System.out.println("Downgrade de D    ==> " + Rates.downgradeRating("D"));
+		System.out.println("Downgrade of BBB+ ==> " + Rates.downgradeRating("BBBP"));
+		System.out.println("Downgrade of CCC+ ==> " + Rates.downgradeRating("CCCP"));
+		System.out.println("Upgrade   of AA+  ==> " + Rates.upgradeRating("AAP"));
+		System.out.println("Downgrade of AA+  ==> " + Rates.downgradeRating("AAP"));
+		System.out.println("Downgrade of c    ==> " + Rates.upgradeRating("c"));
+		System.out.println("Upgrade   of A+   ==> " + Rates.upgradeRating("AP"));
+		System.out.println("Downgrade of D    ==> " + Rates.downgradeRating("D"));
 	}
 }
